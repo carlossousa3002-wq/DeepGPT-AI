@@ -15,6 +15,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Simple CORS middleware to allow standalone HTML files to use the API directly
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 // Setup JSON and body parsing with a generous size limit for file sending
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -32,7 +43,7 @@ const ai = new GoogleGenAI({
 
 // Resilient wrapper to handle model high demand (503) or rate limits by automatically falling back
 async function generateContentWithFallback(contents: any[], config: any) {
-  const models = ["gemini-3.5-flash", "gemini-2.5-flash"];
+  const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-3.5-flash"];
   let lastError: any = null;
 
   for (const model of models) {
@@ -46,11 +57,17 @@ async function generateContentWithFallback(contents: any[], config: any) {
       console.log(`DeepGPT Cognitive Link: Sucesso com modelo ${model}`);
       return response;
     } catch (error: any) {
-      console.warn(`DeepGPT Warning: Falha ao utilizar modelo ${model}. Detalhes: ${error.message || error}`);
+      let errStr = "";
+      try {
+        errStr = error && typeof error === "object" ? (error.message || JSON.stringify(error)) : String(error);
+      } catch {
+        errStr = String(error);
+      }
+      console.warn(`DeepGPT Warning: Falha ao utilizar modelo ${model}. Detalhes: ${errStr}`);
       lastError = error;
       
       // Se for erro de autenticação ou chaves, não adianta tentar outro modelo, lança imediatamente
-      if (error.status === 401 || error.status === 403) {
+      if (error && (error.status === 401 || error.status === 403)) {
         throw error;
       }
     }
@@ -337,7 +354,15 @@ Aqui está a resposta final...
     });
   } catch (error: any) {
     console.error("Erro no chat do DeepGPT:", error);
-    res.status(500).json({ error: `Erro no servidor: ${error.message}` });
+    let msg = "Erro desconhecido";
+    if (error) {
+      if (typeof error === "object") {
+        msg = error.message || JSON.stringify(error);
+      } else {
+        msg = String(error);
+      }
+    }
+    res.status(500).json({ error: `Erro no servidor: ${msg}` });
   }
 });
 

@@ -196,9 +196,9 @@ export default function App() {
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="toggleSettingsModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg text-xs font-semibold text-slate-300 hover:text-cyan-400 transition-colors" title="Configurar API Key">
+        <button onclick="toggleSettingsModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg text-xs font-semibold text-slate-300 hover:text-cyan-400 transition-colors" title="Configurações do Servidor">
           <i data-lucide="settings" class="w-3.5 h-3.5"></i>
-          <span>API Key</span>
+          <span>Servidor</span>
         </button>
         <button onclick="clearChat()" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg text-xs font-semibold text-slate-300 hover:text-red-400 transition-colors" title="Limpar Conversa">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
@@ -220,14 +220,14 @@ export default function App() {
             DEEPGPT NEURAL 3.5B
           </h1>
           <p class="text-sm text-slate-400 mt-2 font-sans max-w-md">
-            Esta é a versão autônoma e completa que roda diretamente no seu navegador ou GitHub Pages! Configurando sua própria API Key, você se comunica diretamente com a IA da Google.
+            Esta é a versão autônoma e completa que roda diretamente no seu navegador ou GitHub Pages! Ela está conectada de forma nativa e segura ao servidor de nuvem DeepGPT.
           </p>
 
-          <!-- API Alert Indicator -->
+          <!-- Connection Status Indicator -->
           <div id="key-badge-container" class="mt-4">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-950/40 border border-yellow-500/20 text-yellow-300 text-xs rounded-lg font-mono">
-              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-yellow-400"></i>
-              <span>API Key do Gemini pendente de configuração</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs rounded-lg font-mono">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Conectado ao Servidor Neural em Nuvem</span>
             </span>
           </div>
 
@@ -255,7 +255,7 @@ export default function App() {
           <textarea
             id="prompt-input"
             onkeydown="handleTextareaKeyDown(event)"
-            placeholder="Pergunte ao DeepGPT... (Configure sua API Key primeiro)"
+            placeholder="Pergunte ao DeepGPT... (Pressione Enter para enviar)"
             class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 pl-4 pr-12 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 resize-none font-sans leading-relaxed min-h-[48px] max-h-36"
             rows="1"
           ></textarea>
@@ -263,15 +263,14 @@ export default function App() {
           <button
             type="submit"
             id="send-button"
-            class="absolute right-2.5 top-2.5 p-2 rounded-lg bg-slate-800 text-slate-500 cursor-not-allowed transition-all duration-300"
-            disabled
+            class="absolute right-2.5 top-2.5 p-2 rounded-lg bg-cyan-500 text-slate-950 transition-all duration-300 hover:scale-105"
           >
             <i data-lucide="send" class="w-4 h-4"></i>
           </button>
         </form>
 
         <div class="text-[10px] text-slate-500 font-mono text-center">
-          <span>Esta página roda inteiramente no cliente. Nenhuma informação é enviada a terceiros, exceto a Google Gemini API.</span>
+          <span>Esta página roda inteiramente no cliente. Nenhuma informação é enviada a terceiros, exceto ao servidor de IA DeepGPT.</span>
         </div>
 
       </div>
@@ -287,34 +286,23 @@ export default function App() {
       </button>
       
       <div class="flex items-center gap-2.5 mb-4">
-        <i data-lucide="key" class="w-5 h-5 text-cyan-400"></i>
-        <h2 class="text-base font-extrabold tracking-wider text-slate-100 font-mono uppercase">Configuração de API Key</h2>
+        <i data-lucide="globe" class="w-5 h-5 text-cyan-400"></i>
+        <h2 class="text-base font-extrabold tracking-wider text-slate-100 font-mono uppercase">Configuração de Servidor</h2>
       </div>
       
       <p class="text-xs text-slate-400 mb-4 leading-relaxed font-sans">
-        Para usar este chat de forma totalmente independente, você precisa de uma API Key do Google Gemini (gratuita). Obtenha em <a href="https://aistudio.google.com" target="_blank" class="text-cyan-400 hover:underline">ai.studio.google.com</a>.
+        Este chat autônomo está configurado para se conectar à API do DeepGPT de forma 100% gratuita e integrada, sem necessidade de chaves locais.
       </p>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono mb-1.5">Sua Gemini API Key</label>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono mb-1.5">Endereço da API DeepGPT</label>
           <input
-            id="key-input"
-            type="password"
-            placeholder="Cole sua API Key aqui (AIzaSy...)"
+            id="server-input"
+            type="text"
+            placeholder="Endereço do servidor"
             class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20"
           >
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono mb-1.5">Modelo Recomendado</label>
-          <select
-            id="model-select"
-            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"
-          >
-            <option value="gemini-2.5-flash">gemini-2.5-flash (Mais Rápido e Inteligente)</option>
-            <option value="gemini-1.5-flash">gemini-1.5-flash (Clássico)</option>
-          </select>
         </div>
 
         <button onclick="saveSettings()" class="w-full py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-lg shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all duration-200">
@@ -328,19 +316,15 @@ export default function App() {
     // App state
     let messages = [];
     let isThinking = false;
-    let apiKey = localStorage.getItem('GEMINI_API_KEY') || '';
-    let selectedModel = localStorage.getItem('GEMINI_MODEL') || 'gemini-2.5-flash';
+    let serverUrl = localStorage.getItem('DEEPGPT_SERVER_URL') || 'https://ais-pre-qvylyd2wffdmnesmxxqewt-387747911662.europe-west2.run.app';
 
     // Initialize UI elements
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      updateKeyBadgeAndButton();
+      updateStatusBadge();
       
-      // Load input key value if exists
-      if (apiKey) {
-        document.getElementById('key-input').value = apiKey;
-      }
-      document.getElementById('model-select').value = selectedModel;
+      // Load input server value if exists
+      document.getElementById('server-input').value = serverUrl;
       
       // Auto resize input textarea
       const promptInput = document.getElementById('prompt-input');
@@ -350,36 +334,23 @@ export default function App() {
       });
     });
 
-    function updateKeyBadgeAndButton() {
+    function updateStatusBadge() {
       const container = document.getElementById('key-badge-container');
       const input = document.getElementById('prompt-input');
       const sendBtn = document.getElementById('send-button');
 
       if (!container) return;
 
-      if (apiKey) {
-        container.innerHTML = \`
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs rounded-lg font-mono">
-            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span>Chave de API configurada e ativa</span>
-          </span>
-        \`;
-        input.placeholder = "Pergunte ao DeepGPT... (Pressione Enter para enviar)";
-        sendBtn.disabled = false;
-        sendBtn.classList.remove('bg-slate-800', 'text-slate-500', 'cursor-not-allowed');
-        sendBtn.classList.add('bg-cyan-500', 'text-slate-950', 'hover:scale-105');
-      } else {
-        container.innerHTML = \`
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-950/40 border border-yellow-500/20 text-yellow-300 text-xs rounded-lg font-mono">
-            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-yellow-400"></i>
-            <span>API Key do Gemini pendente de configuração</span>
-          </span>
-        \`;
-        input.placeholder = "Configure sua API Key no painel superior para habilitar o chat.";
-        sendBtn.disabled = true;
-        sendBtn.classList.add('bg-slate-800', 'text-slate-500', 'cursor-not-allowed');
-        sendBtn.classList.remove('bg-cyan-500', 'text-slate-950', 'hover:scale-105');
-      }
+      container.innerHTML = \`
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs rounded-lg font-mono">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Conectado ao Servidor Neural em Nuvem</span>
+        </span>
+      \`;
+      input.placeholder = "Pergunte ao DeepGPT... (Pressione Enter para enviar)";
+      sendBtn.disabled = false;
+      sendBtn.classList.remove('bg-slate-800', 'text-slate-500', 'cursor-not-allowed');
+      sendBtn.classList.add('bg-cyan-500', 'text-slate-950', 'hover:scale-105');
       lucide.createIcons();
     }
 
@@ -389,20 +360,17 @@ export default function App() {
     }
 
     function saveSettings() {
-      const keyVal = document.getElementById('key-input').value.trim();
-      const modelVal = document.getElementById('model-select').value;
+      const serverVal = document.getElementById('server-input').value.trim();
 
-      if (!keyVal) {
-        alert('Por favor, digite uma API Key válida.');
+      if (!serverVal) {
+        alert('Por favor, insira um endereço de servidor válido.');
         return;
       }
 
-      localStorage.setItem('GEMINI_API_KEY', keyVal);
-      localStorage.setItem('GEMINI_MODEL', modelVal);
-      apiKey = keyVal;
-      selectedModel = modelVal;
+      localStorage.setItem('DEEPGPT_SERVER_URL', serverVal);
+      serverUrl = serverVal;
 
-      updateKeyBadgeAndButton();
+      updateStatusBadge();
       toggleSettingsModal();
     }
 
@@ -426,12 +394,12 @@ export default function App() {
             DEEPGPT NEURAL 3.5B
           </h1>
           <p class="text-sm text-slate-400 mt-2 font-sans max-w-md">
-            Esta é a versão autônoma e completa que roda diretamente no seu navegador ou GitHub Pages! Configurando sua própria API Key, você se comunica diretamente com a IA da Google.
+            Esta é a versão autônoma e completa que roda diretamente no seu navegador ou GitHub Pages! Ela está conectada de forma nativa e segura ao servidor de nuvem DeepGPT.
           </p>
           <div id="key-badge-container" class="mt-4"></div>
         </div>
       \`;
-      updateKeyBadgeAndButton();
+      updateStatusBadge();
     }
 
     function handleTextareaKeyDown(e) {
@@ -446,7 +414,7 @@ export default function App() {
       const input = document.getElementById('prompt-input');
       const text = input.value.trim();
 
-      if (!text || isThinking || !apiKey) return;
+      if (!text || isThinking) return;
 
       isThinking = true;
       input.value = '';
@@ -466,29 +434,35 @@ export default function App() {
       renderThinkingIndicator(thinkingId);
 
       try {
-        const payload = {
-          contents: messages.map(m => ({
-            role: m.role === 'user' ? 'user' : 'model',
-            parts: [{ text: m.content }]
-          })),
-          systemInstruction: {
-            parts: [{ text: "Você é o 'DeepGPT Neural 3.5B', respondendo de forma clara, prestativa, altamente formatada e bonita em Português." }]
-          }
-        };
+        const historyPayload = messages.slice(0, -1).map(m => ({
+          role: m.role,
+          content: m.content
+        }));
 
-        const response = await fetch(\`https://generativelanguage.googleapis.com/v1beta/models/\${selectedModel}:generateContent?key=\${apiKey}\`, {
+        const response = await fetch(\`\${serverUrl}/api/chat\`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            message: text,
+            history: historyPayload,
+            autoLearn: false
+          })
         });
 
         if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.error?.message || "Falha na requisição à API do Gemini.");
+          let errorMsg = "Falha no processamento da resposta.";
+          try {
+            const errData = await response.json();
+            errorMsg = errData.error || errorMsg;
+          } catch {
+            const rawText = await response.text();
+            if (rawText) errorMsg = rawText.substring(0, 100);
+          }
+          throw new Error(errorMsg);
         }
 
         const data = await response.json();
-        const modelText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Desculpe, não consegui obter uma resposta.";
+        const modelText = data.answer || "Desculpe, não consegui obter uma resposta.";
 
         // Remove thinking indicator
         document.getElementById(thinkingId)?.remove();
@@ -667,7 +641,14 @@ export default function App() {
         content: m.content,
       }));
 
-      const res = await fetch("/api/chat", {
+      // Support for static hosting (e.g. GitHub Pages): if not running on Cloud Run or localhost, point to the live backend URL
+      const isCloudRun = window.location.hostname.endsWith(".run.app");
+      const isLocalDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".gitpod.io");
+      const apiEndpoint = (isCloudRun || isLocalDev)
+        ? "/api/chat"
+        : "https://ais-pre-qvylyd2wffdmnesmxxqewt-387747911662.europe-west2.run.app/api/chat";
+
+      const res = await fetch(apiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -678,11 +659,28 @@ export default function App() {
       });
 
       if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Ocorreu um erro ao processar a resposta.");
+        let errorMessage = "Ocorreu um erro ao processar a resposta.";
+        try {
+          const text = await res.text();
+          try {
+            const errData = JSON.parse(text);
+            errorMessage = errData.error || errorMessage;
+          } catch {
+            errorMessage = `Erro ${res.status}: ${text.substring(0, 150)}`;
+          }
+        } catch {
+          // Ignore
+        }
+        throw new Error(errorMessage);
       }
 
-      const data = await res.json();
+      const text = await res.text();
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(`Resposta inválida do servidor: ${text.substring(0, 150)}`);
+      }
 
       // Append DeepGPT response
       const modelMsg: Message = {
