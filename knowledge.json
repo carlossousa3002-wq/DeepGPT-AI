@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "concept": "Modelo de Operação",
+    "details": "DeepGPT 3.5B está operando em modo híbrido local de alto desempenho com Thinking Neural ativo.",
+    "createdAt": "2026-07-02T08:55:00.000Z"
+  },
+  {
+    "id": "2",
+    "concept": "Diretiva de Raciocínio",
+    "details": "Priorizar raciocínio profundo passo-a-passo antes de formular respostas conclusivas.",
+    "createdAt": "2026-07-02T08:55:10.000Z"
+  }
+]
